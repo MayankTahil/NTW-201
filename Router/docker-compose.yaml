@@ -1,0 +1,59 @@
+---
+version: "2"
+services:
+  
+# Host
+  server:
+    image: "mayankt/webserver:a"
+    restart: always
+    networks:
+      BACKEND:
+        ipv4_address: "192.168.14.11"
+    volumes:
+      - /tmp/data:/mnt 
+    hostname: BACKEND
+
+# Client
+  client:
+    image: "mayankt/ubuntu:ntw"
+    restart: always
+    networks:
+      CLIENT:
+        ipv4_address: "192.168.13.5"
+    cap_add:  
+      - NET_ADMIN
+    volumes:
+      - /tmp/data:/mnt
+    hostname: Client
+    command: tail -f /dev/null
+
+# Router
+  router:
+    image: "mayankt/webmin"
+    restart: always
+    networks:
+      BACKEND:
+        ipv4_address: "192.168.14.10"
+      CLIENT:
+        ipv4_address: "192.168.13.10"
+    cap_add:  
+      - NET_ADMIN
+    ports:
+      - 10000:10000
+    volumes:
+      - /tmp/data:/mnt 
+    hostname: Router
+    command: tail -f /dev/null
+
+networks:
+  # defined BACKEND network for docker containers
+  BACKEND:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "192.168.14.0/24"
+  CLIENT:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "192.168.13.0/24"

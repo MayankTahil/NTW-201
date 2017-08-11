@@ -1,0 +1,34 @@
+---
+version: "2"
+services:
+  
+# Host
+  server:
+    image: "mayankt/webserver:a"
+    restart: always
+    networks:
+      LAN:
+        ipv4_address: "192.168.13.11"
+    volumes:
+      - /tmp/data:/mnt 
+    hostname: Server
+
+# Client
+  client:
+    image: "mayankt/ubuntu:ntw"
+    restart: always
+    networks:
+      LAN:
+        ipv4_address: "192.168.13.5"
+    volumes:
+      - /tmp/data:/mnt
+    hostname: Client
+    command: tail -f /dev/null
+
+networks:
+  # defined LAN network for docker containers
+  LAN:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "192.168.13.0/24"

@@ -1,0 +1,99 @@
+---
+version: "2"
+services:
+  
+# Host-A
+  server-a:
+    image: "mayankt/webserver:a"
+    restart: always
+    networks:
+      SERVER:
+        ipv4_address: "192.168.14.11"
+    volumes:
+      - /tmp/data:/mnt 
+    hostname: Server-A
+
+# Host-B
+  server-b:
+    image: "mayankt/webserver:b"
+    restart: always
+    networks:
+      SERVER:
+        ipv4_address: "192.168.14.12"
+    volumes:
+      - /tmp/data:/mnt 
+    hostname: Server-B
+
+# Client
+  client:
+    image: "mayankt/ubuntu:ntw"
+    restart: always
+    networks:
+      CLIENT:
+        ipv4_address: "192.168.13.5"
+    volumes:
+      - /tmp/data:/mnt
+    hostname: Client
+    command: tail -f /dev/null
+
+# NetScalet CPX
+  cpx:
+    image: "store/citrix/netscalercpx:12.0-41.16"
+    environment:
+      EULA: "yes"
+    restart: always
+    cap_add:
+      - NET_ADMIN
+    ulimits:
+      core: -1
+    networks:
+      ADMIN:
+        ipv4_address: "192.168.15.10"
+      CLIENT:
+        ipv4_address: "192.168.13.10"
+      SERVER:
+        ipv4_address: "192.168.14.10"
+    ports:
+      - "10000-10050:10000-10050"
+      - "9080:80"
+    volumes:
+      - /tmp/data:/mnt
+    hostname: ns-adc
+
+# IDE Environment 
+  nitro-ide:
+    image: "mayankt/nitro-ide"
+    restart: always
+    dns: 8.8.8.8
+    networks:
+      SERVER:
+        ipv4_address: "192.168.14.100"
+      CLIENT:
+        ipv4_address: "192.168.13.100"
+      ADMIN:
+        ipv4_address: "192.168.15.100"
+    ports:
+      - "9090:80"
+      - "9091:8000"
+    volumes:
+      - ./scripts:/workspace:rw      
+    hostname: nitro-ide
+    #command: python /workspace/nsAuto.py
+
+networks:
+  # defined CLIENT network for docker containers
+  CLIENT:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "192.168.13.0/24"
+  SERVER:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "192.168.14.0/24"
+  ADMIN:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "192.168.15.0/24"
