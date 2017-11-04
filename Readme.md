@@ -4,6 +4,8 @@ Here is a breakdown of the various exercises that can be performed with the prov
 
 ### [Topology 1](./Switch)
 
+![Topology-1](./images/topology-1.png)
+
 This topology is a simple environment with a **Client** and **Server** on a single docker network: **NTW-1**. Both entities are local to each other on the same LAN. 
   
   * Explore `arp` commands
@@ -15,8 +17,6 @@ This topology is a simple environment with a **Client** and **Server** on a sing
   
   * Static IP of `192.168.13.5` on the `LAN` network. 
 
-  >See [Instructions](#Instructions) to build you container locally or pull it from dockerhub. 
-
 **Server:** Simple website hosting linux server
   
   * `http` on port `80`
@@ -25,6 +25,8 @@ This topology is a simple environment with a **Client** and **Server** on a sing
 
 
 ### [Topology 2](./Router)
+
+![Topology-2](./images/topology-2.png)
 
 This topology is a simple environment with a **Client**, **Server**, and a **Router** across two docker networks: **NTW-1** and **NTW-2**.
   
@@ -55,6 +57,8 @@ This topology is a simple environment with a **Client**, **Server**, and a **Rou
 
 ### [Topology 3](./Proxy) 
 
+![Topology-3](./images/topology-3.png)
+
 This topology is a simple environment with a **Client**, **Server**, and a **Proxy** across two docker networks: **NTW-1** and **NTW-2**.
   
   * Explore `arp` commands
@@ -66,8 +70,6 @@ This topology is a simple environment with a **Client**, **Server**, and a **Pro
 **Client:** Latest [Ubuntu container](./Dockerfile) with basic network utilities installed. 
   
   * Static IP of `192.168.13.12` on the `CLIENT` network. 
-
-  >See [Instructions](#Instructions) to build you container locally or pull it from dockerhub. 
 
 **Server 1:** Simple website hosting linux server
   
@@ -95,7 +97,7 @@ This topology is a simple environment with a **Client**, **Server**, and a **Pro
   * Static IP of `192.168.14.100` on the `NTW-2` network.
   * `http` on port `9090` mapped to port `80` on local host for IDE access.
 
-  >If required, you can access the IDE web interface at `http://localhost:9090`.  
+  >If required, you can access the IDE web interface at `http://localhost:9000`.  
 
 # Instructions 
 
