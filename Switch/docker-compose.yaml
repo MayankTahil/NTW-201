@@ -10,18 +10,21 @@ services:
       LAN:
         ipv4_address: "192.168.13.11"
     volumes:
-      - /tmp/data:/mnt 
+      - /tmp/data:/mnt  
     hostname: Server
 
 # Client
   client:
-    image: "mayankt/ubuntu:ntw"
+    build:
+      context: ./
+      dockerfile: Client.dockerfile
+    image: "client"
     restart: always
     networks:
       LAN:
         ipv4_address: "192.168.13.5"
     volumes:
-      - /tmp/data:/mnt
+      - /tmp/data:/mnt 
     hostname: Client
     command: tail -f /dev/null
 

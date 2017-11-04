@@ -34,13 +34,11 @@ This topology is a simple environment with a **Client**, **Server**, and a **Rou
   * Explore `curl` commands
   * Explore `traceroute` commands 
   * Explore `dig` or `nslookup` commands
-  * Explore [`route'](https://www.cyberciti.biz/faq/linux-route-add/) commands
+  * Explore [`route`](https://www.cyberciti.biz/faq/linux-route-add/) commands
 
 **Client:** Latest [Ubuntu container](./Dockerfile) with basic network utilities installed. 
   
   * Static IP of `192.168.13.5` on the `CLIENT` network. 
-
-  >See [Instructions](#Instructions) to build you container locally or pull it from dockerhub. 
 
 **Server:** Simple website hosting linux server
   
@@ -100,15 +98,6 @@ This topology is a simple environment with a **Client**, **Server**, and a **Pro
   >If required, you can access the IDE web interface at `http://localhost:9090`.  
 
 # Instructions 
-
-### Building your Client Container Image
-
-This is an optional step. The client container image is available publicly via [mayankt/ubuntu:ntw](https://hub.docker.com/r/mayankt/ubuntu/). You can also build your container and modify any packages pre-installed on the client by updating the [`Dockerfile`](./Dockerfile) in this repository. To build your own container, within the same directory as the `Dockerfile`, enter the following command: 
-
-```
-# Assuming you are in the ./NTW-201 directory, enter: 
-docker build -t mayankt/ubuntu:ntw .
-```
 
 ### Provisioning Your Environment. 
 
@@ -186,7 +175,7 @@ Below are references to common networking commands to configure your client or t
 5. [**Collect Network Trace:**](http://packetlife.net/media/library/12/tcpdump.pdf) Enter the following command to collect all TCP packets in the trace across all interfaces and write out to a `test.pcap` file in the `/tmp` directory that you can open in [WireShark](https://www.wireshark.org/).
 
     ```
-    tcpdum -i any -w /tmp/test
+    tcpdump -i any -w /mnt/test.pcap
     ```
 
 6. **Trace route:** Enter the following command to see all your hops across the network to your destination ip

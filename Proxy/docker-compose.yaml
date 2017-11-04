@@ -26,13 +26,16 @@ services:
 
 # Client
   client:
-    image: "mayankt/ubuntu:ntw"
+    build:
+      context: ./
+      dockerfile: Client.dockerfile
+    image: "client"
     restart: always
     networks:
       CLIENT:
         ipv4_address: "192.168.13.5"
     volumes:
-      - /tmp/data:/mnt
+      - /tmp/data:/mnt 
     hostname: Client
     command: tail -f /dev/null
 
@@ -54,10 +57,10 @@ services:
       SERVER:
         ipv4_address: "192.168.14.10"
     ports:
-      - "10000-10050:10000-10050"
-      - "9080:80"
+      - "9002-9010:9002-9010"
+      - "9001:80"
     volumes:
-      - /tmp/data:/mnt
+      - /tmp/data:/mnt 
     hostname: ns-adc
 
 # IDE Environment 
@@ -73,15 +76,13 @@ services:
       ADMIN:
         ipv4_address: "192.168.15.100"
     ports:
-      - "9090:80"
-      - "9091:8000"
+      - "9000:80"
     volumes:
-      - ./scripts:/workspace:rw      
+      - ${pwd}/scripts:/workspace:rw      
     hostname: nitro-ide
     #command: python /workspace/nsAuto.py
 
 networks:
-  # defined CLIENT network for docker containers
   CLIENT:
     driver: bridge
     ipam:
