@@ -3,7 +3,10 @@ version: "2"
 services:
 # Server
   server:
-    image: "mayankt/webserver:a"
+    build:
+      context: ./
+      dockerfile: Server-a.dockerfile
+    image: "server"
     restart: always
     networks:
       BACKEND:
@@ -11,7 +14,7 @@ services:
     cap_add:  
       - NET_ADMIN
     volumes:
-      - /tmp/data:/mnt 
+      - ./traces:/mnt 
     hostname: BACKEND
 
 # Client
@@ -27,7 +30,7 @@ services:
     cap_add:  
       - NET_ADMIN
     volumes:
-      - /tmp/data:/mnt 
+      - ./traces:/mnt 
     hostname: Client
     command: tail -f /dev/null
 
@@ -48,7 +51,7 @@ services:
     ports:
       - 9000:10000
     volumes:
-      - /tmp/data:/mnt  
+      - ./traces:/mnt 
     hostname: Router
 
 networks:
@@ -63,4 +66,3 @@ networks:
     ipam:
       config:
         - subnet: "192.168.13.0/24"
-

@@ -4,24 +4,30 @@ services:
   
 # Host-A
   server-a:
-    image: "mayankt/webserver:a"
+    build:
+      context: ./
+      dockerfile: Server-a.dockerfile
+    image: "server-a"
     restart: always
     networks:
       SERVER:
         ipv4_address: "192.168.14.11"
     volumes:
-      - /tmp/data:/mnt 
+      - ./traces:/mnt 
     hostname: Server-A
 
 # Host-B
   server-b:
-    image: "mayankt/webserver:b"
+    build:
+      context: ./
+      dockerfile: Server-b.dockerfile
+    image: "server-b"
     restart: always
     networks:
       SERVER:
         ipv4_address: "192.168.14.12"
     volumes:
-      - /tmp/data:/mnt 
+      - ./traces:/mnt 
     hostname: Server-B
 
 # Client
@@ -35,7 +41,7 @@ services:
       CLIENT:
         ipv4_address: "192.168.13.5"
     volumes:
-      - /tmp/data:/mnt 
+      - ./traces:/mnt 
     hostname: Client
     command: tail -f /dev/null
 
@@ -52,15 +58,12 @@ services:
     networks:
       ADMIN:
         ipv4_address: "192.168.15.10"
-      CLIENT:
-        ipv4_address: "192.168.13.10"
       SERVER:
         ipv4_address: "192.168.14.10"
-    ports:
-      - "9002-9010:9002-9010"
-      - "9001:80"
+      CLIENT:
+        ipv4_address: "192.168.13.10"
     volumes:
-      - /tmp/data:/mnt 
+      - ./traces:/mnt 
     hostname: ns-adc
 
 # IDE Environment 
@@ -71,14 +74,10 @@ services:
     networks:
       SERVER:
         ipv4_address: "192.168.14.100"
-      CLIENT:
-        ipv4_address: "192.168.13.100"
-      ADMIN:
-        ipv4_address: "192.168.15.100"
     ports:
       - "9000:80"
     volumes:
-      - ${pwd}/scripts:/workspace:rw      
+      - ./scripts:/workspace:rw      
     hostname: nitro-ide
     #command: python /workspace/nsAuto.py
 

@@ -46,7 +46,7 @@
           },
           {
             "mode": "mbf",
-            "enable": false
+            "enable": true
           },
           {
             "mode": "usnip",
@@ -54,7 +54,7 @@
           },
           {
             "mode": "l3",
-            "enable": false
+            "enable": true
           }
         ]
       },
@@ -77,7 +77,7 @@
           "name": "webserver",
           "servicetype": "HTTP",
           "ipv46": "192.168.13.10",
-          "port": 9002,
+          "port": 80,
           "persistencetype": "NONE",
           "lbmethod": "ROUNDROBIN",
           "services": [

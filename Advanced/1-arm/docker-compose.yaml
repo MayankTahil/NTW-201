@@ -1,0 +1,150 @@
+---
+version: "2"
+services:
+# Server-a
+  server:
+    build:
+      context: ./
+      dockerfile: Server-a.dockerfile
+    image: "server-a"
+    restart: always
+    networks:
+      BACKEND:
+        ipv4_address: "192.168.14.11"
+    cap_add:  
+      - NET_ADMIN
+    volumes:
+      - /data/traces:/mnt  
+    hostname: BACKEND
+# Server-b
+  server:
+    build:
+      context: ./
+      dockerfile: Server-b.dockerfile
+    image: "server-b"
+    restart: always
+    networks:
+      BACKEND:
+        ipv4_address: "192.168.14.12"
+    cap_add:  
+      - NET_ADMIN
+    volumes:
+      - /data/traces:/mnt  
+    hostname: BACKEND
+
+# Client
+  client:
+    build:
+      context: ./
+      dockerfile: Client.dockerfile
+    image: "client"
+    restart: always
+    networks:
+      CLIENT:
+        ipv4_address: "192.168.13.5"
+    cap_add:  
+      - NET_ADMIN
+    volumes:
+      - /data/traces:/mnt  
+    hostname: Client
+    command: tail -f /dev/null
+
+# Router-1
+  edge-router:
+    build:
+      context: ./
+      dockerfile: Router.dockerfile
+    image: "edge-router"
+    restart: always
+    networks:
+      A_INTERNET:
+        ipv4_address: "192.168.16.10"
+      CLIENT:
+        ipv4_address: "192.168.13.10"
+      INFRA:
+        ipv4_address: "192.168.15.10"
+    cap_add:  
+      - NET_ADMIN
+    ports:
+      - 9000:10000
+    volumes:
+      - /data/traces:/mnt  
+    hostname: Edge-Router
+# Router-2
+  router-2:
+    build:
+      context: ./
+      dockerfile: Router.dockerfile
+    image: "router"
+    restart: always
+    networks:
+      INFRA:
+        ipv4_address: "192.168.15.100"
+      BACKEND:
+        ipv4_address: "192.168.14.10"
+    cap_add:  
+      - NET_ADMIN
+    ports:
+      - 9001:10000
+    volumes:
+      - /data/traces:/mnt
+    hostname: Router
+
+# NetScalet CPX
+  cpx:
+    image: "store/citrix/netscalercpx:12.0-41.16"
+    environment:
+      EULA: "yes"
+    restart: always
+    cap_add:
+      - NET_ADMIN
+    ulimits:
+      core: -1
+    networks:
+      INFRA:
+        ipv4_address: "192.168.15.10"
+    ports:
+      - "9002-9010:9002-9010"
+      - "9001:80"
+    volumes:
+      - /data/traces:/mnt
+    hostname: ns-adc
+
+# IDE Environment 
+  nitro-ide:
+    image: "mayankt/nitro-ide"
+    restart: always
+    dns: 8.8.8.8
+    networks:
+      INFRA:
+        ipv4_address: "192.168.15.100"
+    ports:
+      - "9010:80"
+    volumes:
+      - ${pwd}/scripts:/workspace:rw      
+    hostname: nitro-ide
+    #command: python /workspace/nsAuto.py
+
+networks:
+# defined BACKEND network for docker containers
+  BACKEND:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "192.168.14.0/24"
+  CLIENT:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "192.168.13.0/24"
+  INFRA:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "192.168.15.0/24"
+  A_INTERNET:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "192.168.16.0/24"
+

@@ -1,0 +1,97 @@
+{
+  "ns": [
+    {
+      "config": {
+        "nsip": "192.168.15.10",
+        "username": "nsroot",
+        "password": "nsroot",
+        "ips": [
+         {
+           "ip": "192.168.15.11",
+           "netmask": "255.255.255.0",
+           "type": "SNIP",
+           "mgmt": false
+         }
+        ],
+        "features": [
+          {
+            "feature": "lb",
+            "enable": true
+          },
+          {
+            "feature": "cs",
+            "enable": false
+          },
+          {
+            "feature": "ssl",
+            "enable": false
+          },
+          {
+            "feature": "ic",
+            "enable": false
+          },
+          {
+            "feature": "rewrite",
+            "enable": false
+          }
+        ],
+        "modes": [
+          {
+            "mode": "l2",
+            "enable": false
+          },
+          {
+            "mode": "usip",
+            "enable": false
+          },
+          {
+            "mode": "mbf",
+            "enable": false
+          },
+          {
+            "mode": "usnip",
+            "enable": true
+          },
+          {
+            "mode": "l3",
+            "enable": false
+          }
+        ]
+      },
+      "services": [
+        {
+          "port": 80,
+          "name": "webserver-a",
+          "ip": "192.168.14.11",
+          "type": "http"
+        },
+        {
+          "port": 80,
+          "name": "webserver-b",
+          "ip": "192.168.14.12",
+          "type": "http"
+        }
+      ],
+      "lbvs": [
+        {
+          "name": "webserver",
+          "servicetype": "HTTP",
+          "ipv46": "192.168.15.12",
+          "port": 9002,
+          "persistencetype": "NONE",
+          "lbmethod": "ROUNDROBIN",
+          "services": [
+            {
+              "servicename": "webserver-a",
+              "weight": 1
+            },
+            {
+              "servicename": "webserver-b",
+              "weight": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

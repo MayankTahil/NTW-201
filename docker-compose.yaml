@@ -1,0 +1,20 @@
+---
+version: "2"
+services:
+  # Docker-in-Docker environment with docker-compose for Sandbox testing
+  sandbox:
+    build:
+      context: ./
+      dockerfile: sandbox.dockerfile
+    image: ntw-201:sandbox
+    privileged: true
+    ports:
+      - "9000-9010:9000-9010/tcp"
+    volumes:
+      - ./:/data:rw
+    networks:
+      sandbox:
+
+networks: 
+  sandbox:
+    driver: bridge

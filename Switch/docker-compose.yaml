@@ -4,13 +4,16 @@ services:
   
 # Host
   server:
-    image: "mayankt/webserver:a"
+    build:
+      context: ./
+      dockerfile: Server-a.dockerfile
+    image: "server"
     restart: always
     networks:
       LAN:
         ipv4_address: "192.168.13.11"
     volumes:
-      - /tmp/data:/mnt  
+      - ./traces:/mnt 
     hostname: Server
 
 # Client
@@ -24,7 +27,7 @@ services:
       LAN:
         ipv4_address: "192.168.13.5"
     volumes:
-      - /tmp/data:/mnt 
+      - ./traces:/mnt 
     hostname: Client
     command: tail -f /dev/null
 
