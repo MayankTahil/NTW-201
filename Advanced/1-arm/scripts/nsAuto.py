@@ -11,6 +11,7 @@ from nssrc.com.citrix.netscaler.nitro.exception.nitro_exception import nitro_exc
 from nssrc.com.citrix.netscaler.nitro.resource.config.ns.nsip import nsip
 from nssrc.com.citrix.netscaler.nitro.resource.config.ns.nsconfig import nsconfig
 from nssrc.com.citrix.netscaler.nitro.resource.config.basic.service import service
+from nssrc.com.citrix.netscaler.nitro.resource.config.network.route import route
 from nssrc.com.citrix.netscaler.nitro.resource.config.lb.lbvserver import lbvserver
 from nssrc.com.citrix.netscaler.nitro.resource.config.lb.lbvserver_service_binding import lbvserver_service_binding
 from nssrc.com.citrix.netscaler.nitro.resource.config.cs.csvserver import csvserver
@@ -181,6 +182,28 @@ class netScaler:
 
         return
 
+    def addRoutes(self):
+        """Configure the services for the NetScaler"""
+        if "routes" in self.cfg.keys():
+            #Lets loop through all the services
+            for routeEntry in self.cfg['routes']:
+                try:
+                    #Setup the new route
+                    newRoute = route()
+                    newRoute.network = routeEntry['network']
+                    newRoute.netmask = routeEntry['netmask']
+                    newRoute.gateway = routeEntry['gateway']
+
+                    #Add the new service
+                    route.add(self.ns_session, newRoute)
+
+                except nitro_exception as e:
+                    print("Exception::errorcode=" +
+                          str(e.errorcode) + ",message=" + e.message)
+                except Exception as e:
+                    print("Exception::message=" + str(e.args))
+        return
+
     def addLBVServers(self):
         """Configure the lbvservers for the NetScaler"""
         if "lbvs" in self.cfg.keys():
@@ -242,6 +265,7 @@ def confNS(ns):
     # Configure modes and features
     ns.confFeatures()
     ns.confModes()
+    ns.addRoutes()
 
     # Next lets add services and configure VServers
     ns.addServices()

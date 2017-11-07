@@ -22,5 +22,6 @@ RUN apk add --no-cache \
  pip install docker-compose
 
 WORKDIR /data
-
-CMD dockerd >/dev/null 2>/dev/null & bash
+ENV PS1="SANDBOX :: \W  $ "
+RUN echo "sh(){ docker-compose exec \$1 bash ; }" >> /root/.bashrc
+CMD dockerd >/dev/null 2>/dev/null

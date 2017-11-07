@@ -2,12 +2,12 @@
   "ns": [
     {
       "config": {
-        "nsip": "192.168.15.10",
+        "nsip": "192.168.15.11",
         "username": "nsroot",
         "password": "nsroot",
         "ips": [
          {
-           "ip": "192.168.15.11",
+           "ip": "192.168.15.12",
            "netmask": "255.255.255.0",
            "type": "SNIP",
            "mgmt": false
@@ -46,7 +46,7 @@
           },
           {
             "mode": "mbf",
-            "enable": false
+            "enable": true
           },
           {
             "mode": "usnip",
@@ -54,7 +54,7 @@
           },
           {
             "mode": "l3",
-            "enable": false
+            "enable": true
           }
         ]
       },
@@ -72,12 +72,24 @@
           "type": "http"
         }
       ],
+      "routes": [
+        {
+          "network": "192.168.14.0",
+          "netmask": "255.255.255.0",
+          "gateway": "192.168.15.100"
+        },
+        {
+          "network": "192.168.13.0",
+          "netmask": "255.255.255.0",
+          "gateway": "192.168.15.10"
+        }
+      ],
       "lbvs": [
         {
           "name": "webserver",
           "servicetype": "HTTP",
-          "ipv46": "192.168.15.12",
-          "port": 9002,
+          "ipv46": "192.168.15.13",
+          "port": 80,
           "persistencetype": "NONE",
           "lbmethod": "ROUNDROBIN",
           "services": [

@@ -5,7 +5,7 @@ MAINTAINER bouroo <bouroo@gmail.com>
 RUN echo root:pass | chpasswd
 RUN echo "Acquire::GzipIndexes \"false\"; Acquire::CompressionTypes::Order:: \"gz\";" >/etc/apt/apt.conf.d/docker-gzip-indexes
 # Add some package
-RUN apt-get update && apt-get install -y wget locales nano tcpdump ntpdate
+RUN apt-get update && apt-get install -y wget locales nano tcpdump ntpdate traceroute iputils-ping curl
 # Add locale
 RUN locale-gen en_US.UTF-8 && locale-gen th_TH.UTF-8 en_US en_US.UTF-8 && dpkg-reconfigure locales
 # Add webmin repository key
@@ -28,6 +28,6 @@ ENV LC_ALL en_US.UTF-8
 EXPOSE 10000
 
 # VOLUME ["/etc/webmin"]
-ADD ./data/iptables.up.rules /etc/iptables.up.rules
-
+ADD ./data/router-2.iptables.up.rules /etc/iptables.up.rules
+ENV PS1="ROUTER-2 :: \W  $ "
 CMD /usr/bin/touch /var/webmin/miniserv.log && /usr/sbin/service webmin restart && /usr/bin/tail -f /var/webmin/miniserv.log

@@ -1,12 +1,12 @@
 ---
 version: "2"
 services:
-# Server
-  server:
+# Server-a
+  server-a:
     build:
       context: ./
       dockerfile: Server-a.dockerfile
-    image: "server"
+    image: "server-a"
     restart: always
     networks:
       BACKEND:
@@ -14,7 +14,22 @@ services:
     cap_add:  
       - NET_ADMIN
     volumes:
-      - /data/traces:/mnt  
+      - ./traces:/mnt 
+    hostname: BACKEND
+# Server-b
+  server-b:
+    build:
+      context: ./
+      dockerfile: Server-b.dockerfile
+    image: "server-b"
+    restart: always
+    networks:
+      BACKEND:
+        ipv4_address: "192.168.14.12"
+    cap_add:  
+      - NET_ADMIN
+    volumes:
+      - ./traces:/mnt 
     hostname: BACKEND
 
 # Client
@@ -34,7 +49,7 @@ services:
     hostname: Client
     command: tail -f /dev/null
 
-# Router-1
+# Edge-Router
   edge-router:
     build:
       context: ./

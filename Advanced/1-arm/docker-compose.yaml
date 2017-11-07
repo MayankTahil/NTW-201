@@ -2,7 +2,7 @@
 version: "2"
 services:
 # Server-a
-  server:
+  server-a:
     build:
       context: ./
       dockerfile: Server-a.dockerfile
@@ -14,10 +14,10 @@ services:
     cap_add:  
       - NET_ADMIN
     volumes:
-      - /data/traces:/mnt  
+      - ./traces:/mnt 
     hostname: BACKEND
 # Server-b
-  server:
+  server-b:
     build:
       context: ./
       dockerfile: Server-b.dockerfile
@@ -29,7 +29,7 @@ services:
     cap_add:  
       - NET_ADMIN
     volumes:
-      - /data/traces:/mnt  
+      - ./traces:/mnt 
     hostname: BACKEND
 
 # Client
@@ -45,15 +45,15 @@ services:
     cap_add:  
       - NET_ADMIN
     volumes:
-      - /data/traces:/mnt  
+      - ./traces:/mnt 
     hostname: Client
     command: tail -f /dev/null
 
-# Router-1
+# Edge-Router
   edge-router:
     build:
       context: ./
-      dockerfile: Router.dockerfile
+      dockerfile: Edge-Router.dockerfile
     image: "edge-router"
     restart: always
     networks:
@@ -61,24 +61,24 @@ services:
         ipv4_address: "192.168.16.10"
       CLIENT:
         ipv4_address: "192.168.13.10"
-      INFRA:
+      DMZ:
         ipv4_address: "192.168.15.10"
     cap_add:  
       - NET_ADMIN
     ports:
       - 9000:10000
     volumes:
-      - /data/traces:/mnt  
+      - ./traces:/mnt 
     hostname: Edge-Router
 # Router-2
   router-2:
     build:
       context: ./
-      dockerfile: Router.dockerfile
-    image: "router"
+      dockerfile: Router-2.dockerfile
+    image: "router-2"
     restart: always
     networks:
-      INFRA:
+      DMZ:
         ipv4_address: "192.168.15.100"
       BACKEND:
         ipv4_address: "192.168.14.10"
@@ -87,7 +87,7 @@ services:
     ports:
       - 9001:10000
     volumes:
-      - /data/traces:/mnt
+      - ./traces:/mnt 
     hostname: Router
 
 # NetScalet CPX
@@ -101,13 +101,10 @@ services:
     ulimits:
       core: -1
     networks:
-      INFRA:
-        ipv4_address: "192.168.15.10"
-    ports:
-      - "9002-9010:9002-9010"
-      - "9001:80"
+      DMZ:
+        ipv4_address: "192.168.15.11"
     volumes:
-      - /data/traces:/mnt
+      - ./traces:/var/nstrace
     hostname: ns-adc
 
 # IDE Environment 
@@ -116,12 +113,13 @@ services:
     restart: always
     dns: 8.8.8.8
     networks:
-      INFRA:
-        ipv4_address: "192.168.15.100"
+      DMZ:
+        ipv4_address: "192.168.15.101"
     ports:
       - "9010:80"
     volumes:
-      - ${pwd}/scripts:/workspace:rw      
+      - ./scripts:/workspace:rw
+      - ./traces:/mnt 
     hostname: nitro-ide
     #command: python /workspace/nsAuto.py
 
@@ -137,7 +135,7 @@ networks:
     ipam:
       config:
         - subnet: "192.168.13.0/24"
-  INFRA:
+  DMZ:
     driver: bridge
     ipam:
       config:

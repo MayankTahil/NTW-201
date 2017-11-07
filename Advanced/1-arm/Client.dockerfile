@@ -1,5 +1,5 @@
 FROM ubuntu:latest
-
+ENV PS1="CLIENT :: \W  $ "
 RUN apt-get -y update && \
     apt-get -y upgrade && \
     apt-get -y install \
@@ -12,3 +12,4 @@ RUN apt-get -y update && \
       dnsutils && \
     apt-get autoremove && apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN echo 'export PS1="CLIENT :: \W"' >> /root/.bashrc
