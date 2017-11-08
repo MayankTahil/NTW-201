@@ -5,7 +5,7 @@ services:
 # Host
   server:
     build:
-      context: ./
+      context: ./dockerfiles
       dockerfile: Server-a.dockerfile
     image: "server"
     restart: always
@@ -19,7 +19,7 @@ services:
 # Client
   client:
     build:
-      context: ./
+      context: ./dockerfiles
       dockerfile: Client.dockerfile
     image: "client"
     restart: always

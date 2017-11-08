@@ -1,5 +1,7 @@
 ![Topology-3](../images/topology-3.png)
 
+> THIS TOPOLOGY IS BROKEN. THIS FOLDER IS A WORK IN PROGRESS!!!
+
 This topology is a simple environment with a **Client**, **Server-a**, **Server-b** and a **Reverse Proxy** across two docker networks: **CLIENT** and **BACKEND**.
 
 > Note: There is another network **ADMIN** for management of NetScaler (NSIP). There is also an IDE in this network pushing configs via Nitro to NetScaler CPX for Load balancing. This network is irrelevant for the purpose of investigating network traffic.

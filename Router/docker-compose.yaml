@@ -4,7 +4,7 @@ services:
 # Server
   server:
     build:
-      context: ./
+      context: ./dockerfiles
       dockerfile: Server-a.dockerfile
     image: "server"
     restart: always
@@ -20,7 +20,7 @@ services:
 # Client
   client:
     build:
-      context: ./
+      context: ./dockerfiles
       dockerfile: Client.dockerfile
     image: "client"
     restart: always
@@ -37,7 +37,7 @@ services:
 # Router
   router:
     build:
-      context: ./
+      context: ./dockerfiles
       dockerfile: Router.dockerfile
     image: "router"
     restart: always

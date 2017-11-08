@@ -5,7 +5,7 @@ services:
 # Host-A
   server-a:
     build:
-      context: ./
+      context: ./dockerfiles
       dockerfile: Server-a.dockerfile
     image: "server-a"
     restart: always
@@ -19,7 +19,7 @@ services:
 # Host-B
   server-b:
     build:
-      context: ./
+      context: ./dockerfiles
       dockerfile: Server-b.dockerfile
     image: "server-b"
     restart: always
@@ -33,7 +33,7 @@ services:
 # Client
   client:
     build:
-      context: ./
+      context: ./dockerfiles
       dockerfile: Client.dockerfile
     image: "client"
     restart: always
@@ -47,7 +47,7 @@ services:
 
 # NetScalet CPX
   cpx:
-    image: "store/citrix/netscalercpx:12.0-41.16"
+    image: "mayankt/cpx"
     environment:
       EULA: "yes"
     restart: always

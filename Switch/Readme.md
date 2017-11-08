@@ -24,7 +24,15 @@ This topology is a simple environment with a **Client** and **Server** on a sing
 
 # Instructions 
 
-### Attach to the container's CLI by entering the following command within this directory: 
+### Attach to the desired container's CLI: 
+
+Within the module's respective directory, enter the following if you are in the sandbox container: 
+
+```bash
+sh <service-name>
+```
+
+Otherwise enter the following on your local machine: 
 
 ```bash
 docker-compose exec <service-name> bash
