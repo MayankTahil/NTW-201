@@ -113,6 +113,15 @@ docker-compose exec nitro-ide python /workspace/nsAuto.py
 
 > You want to execute this command within the module's directory. It will execute the `./scripts/nsAuto.py` python script to configure the CPX to it's desired state as defined by the `ns.AutoCfg.json` file. You can also view an IDE to interact with the code and JSON file by navigating on your local machine to [`http://localhost:9010`](http://localhost:9010). 
 
+### Collecting NS Trace on CPX
+
+Enter the following commands to start and stop collection of all network packets across all interfaces and write out to a `test.pcap` file in the `/mnt/<date:time>` directory that you can open in [WireShark](https://www.wireshark.org/).
+
+```bash
+cli_script.sh "start nstrace -size 1514 -traceformat PCAP -filename test.pcap"
+cli_script.sh "stop nstrace"
+```
+
 ### Reset your provisioned module 
 
 Within the module's directory, enter the following 2 commands to de-provision your topology and re-build docker images for a clean, baseline environment. 
