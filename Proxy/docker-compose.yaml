@@ -47,7 +47,7 @@ services:
 
 # NetScalet CPX
   cpx:
-    image: "mayankt/cpx"
+    image: "verzunof/cpx:12.0-53.6-fix"
     environment:
       EULA: "yes"
     restart: always
