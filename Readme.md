@@ -1,6 +1,6 @@
 # Intermediate Networking
 
-Here is a breakdown of the various exercises that can be performed with the following provided environment topologies within each subsequent folder's `docker-compose.yaml` file. There are three simple topologies provided where you can investigate network traffic within the docker network. There are two advanced topologies provided as well within the [`Advanced`](./Advanced) directory.
+Here is a breakdown of the various exercises that can be performed with the following provided environment topologies within each subsequent folder's `docker-compose.yaml` file. There are 5 simple topologies provided where you can investigate network traffic within the docker network. You can explore networking across a basic L2 Switch, L3 Router, a Reverse Proxy, and a Network Firewall. 
 
 > The only pre-requisite for this tutorial is to have [Docker installed](https://docs.docker.com/engine/installation/) on your local machine. 
 
@@ -52,7 +52,7 @@ This topology is a simple environment with a **Client**, **Server**, and a **Rou
 
 ## [Topology 3](./Proxy) 
 
-> NOTE: THIS MODULE/TOPOLOGY IS NOT FUNCTIONING PROPERLY. I HAVE TO FIX THIS, PELASE REFER TO 1 ARM TOPOLOGY TO INVESTIGATE REVERSE PROXY TRAFFIC
+> NOTE: THIS MODULE/TOPOLOGY IS NOT FUNCTIONING PROPERLY WITHIN DOCKER. I HAVE TO FIX THIS, PELASE REFER TO 1 ARM TOPOLOGY TO INVESTIGATE REVERSE PROXY TRAFFIC
 
 ![Topology-3](./images/topology-3.png)
 
@@ -132,7 +132,7 @@ docker-compose down
 
 Once your containers are running and your environment has provisioned successfully, you can execute into the shell of any infrastructure component. See command and descriptions below.
 
-** To view running containers, enter the following. **
+**To view running containers, enter the following.**
 
 ```bash
 docker-compose ps -a
