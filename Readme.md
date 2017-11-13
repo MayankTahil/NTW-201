@@ -8,7 +8,7 @@ Here is a breakdown of the various exercises that can be performed with the foll
 
 Before starting this tutorial, please read the following information: 
 
-  * [Quick Start: Isolated Sandbox Environment](./Sandbox.md)
+  * [Quick Start: Isolated Sandbox Environment](./sandbox.md)
   * [Basic Networking tools and command line utilities](./docs/Networking-tools.md)
   * [Accessing Infrastructure Components](./docs/Access.md)
 
